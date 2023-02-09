@@ -7,6 +7,9 @@
 1. git add -A  添加所有变化
 2. git add -u  添加被修改(modified)和被删除(deleted)文件，不包括新文件(new)
 3. git add .   添加新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
+4. git commit -u "xxxx描述提交内容"
+5. git push `仓库名` `分支名` 将修改内容提交到远程仓库
+6. git pull  `分支名`  拉取最新内容并自动合并到本地
 
 
 
