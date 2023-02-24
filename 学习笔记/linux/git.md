@@ -28,6 +28,19 @@ git push origin master
 git pull origin master
 ```
 
+git解决提交乱码问题
+
+```shell
+git config --global core.quotepath false 
+git config --global gui.encoding utf-8
+git config --global i18n.commit.encoding utf-8 
+git config --global i18n.logoutputencoding utf-8 
+# bash 环境下(临时生效)：
+export LESSCHARSET=utf-8
+# cmd环境下(需要管理员权限)永久生效：
+setx "LESSCHARSET" "utf-8" /m
+```
+
 
 
 
