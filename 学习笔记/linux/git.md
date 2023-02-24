@@ -7,12 +7,28 @@
 1. git add -A  添加所有变化
 2. git add -u  添加被修改(modified)和被删除(deleted)文件，不包括新文件(new)
 3. git add .   添加新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
-4. git commit -u "xxxx描述提交内容"
+4. git commit -m "xxxx描述提交内容"
 5. git push `仓库名别名` `分支名` 将修改内容提交到远程仓库
 6. git pull  `仓库名别名` `分支名`  拉取最新内容并自动合并到本地
 7. git log
 8. git init：初始化一个git仓库
 9. git clone：clone一个git仓库
+
+
+
+提交基本流程
+
+```shell
+#提交修改 
+git add -U
+# 提交所有变化：git add -A
+git commit -m "修改了xxx文档，新增了xxx文档"
+git push origin master
+#更新
+git pull origin master
+```
+
+
 
 
 
