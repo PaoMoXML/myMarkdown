@@ -88,6 +88,8 @@
    ```
 
    > [Debian 11 (bullseye) 国内软件源 - Guanglin - 博客园 (cnblogs.com)](https://www.cnblogs.com/liuguanglin/p/debian11_repo.html)
+   >
+   > [apt命令报证书错误的解决方法------- Certificate verification failed: The certificate is NOT trusted._Chaowanq的博客-CSDN博客](https://blog.csdn.net/Chaowanq/article/details/121559709)
 
 ### 4.安装openssh-server
 
@@ -106,6 +108,9 @@
    #输出:
    1943    ?      00:00:00   ssh-agent        #表示客户端已运行；
    16322  ?      00:00:00   sshd              #表示服务端已运行；
+   
+   systemctl start ssh.service #手动启动
+   vim /etc/ssh/sshd_config # 编辑配置
    ```
 
 3. `ssh`配置
@@ -200,9 +205,9 @@
    UsePAM yes     #是否使用PAM模块认证
    ```
 
-4. 常见修改
+   ​	常见修改
 
-   允许root登录
+   ​	允许root登录
 
    ```
    # 修改前
@@ -649,4 +654,15 @@ ps -ef |grep nginx |grep -v grep	//查看是否启动
    // wlp4s0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen //1000 link/ether 90:0f:0c:86:a5:a3 brd ff:ff:ff:ff:ff:ff
    
    ```
+
+### 10.常用命令
+
+```shell
+# 查看进程所用pid
+ps -ef | grep 应用名
+#查看进程的所用端口
+netstat -nap | grep pid
+#根据端口port查进程
+netstat -nap | grep port
+```
 

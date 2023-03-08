@@ -1,3 +1,9 @@
+## 自动安装
+
+```shell
+curl -sSL https://get.daocloud.io/docker | sh
+```
+
 ## 手动安装
 
 ### 1.卸载旧版本
@@ -122,13 +128,17 @@ sudo rm -rf /var/lib/docker
 
 ### 5.常用命令
 
-1. 查看所有容器
+```shell
+#查看所有容器
+docker ps -a
+#进入容器内部
+docker exec -it '容器名' /bin/bash
+#停止容器
+docker stop '容器名' 
+#删除容器
+docker rm '容器名'
+```
 
-   ```shell
-   docker ps -a
-   ```
-
-   root@debian:~# docker ps -a
-   CONTAINER ID   IMAGE                     COMMAND        CREATED       STATUS          PORTS     NAMES
-   4394237a195b   sulinggg/openwrt:x86_64   "/sbin/init"   2 hours ago   Up 20 minutes             openwrt
-
+root@debian:~# docker ps -a
+CONTAINER ID   IMAGE                     COMMAND        CREATED       STATUS          PORTS     NAMES
+4394237a195b   sulinggg/openwrt:x86_64   "/sbin/init"   2 hours ago   Up 20 minutes             openwrt

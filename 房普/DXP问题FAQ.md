@@ -16,19 +16,21 @@
 
 1. 确认是否将`dxpmanager`接入了`nginx`，如果接入了则在配置文件中确认是否有如下配置
 
-   	upstream dxpmanager {
-   	        server ip:port;
-   	    }
-   	location /dxpmanager {
-   	        proxy_pass  http://dxpmanager;
-   	    }
-   	location  /dxpmanager/websocket/pushlog {
-   		proxy_pass http://dxpmanager;
-   	    proxy_set_header Host $host:$server_port;
-   	    proxy_http_version 1.1;
-   	    proxy_set_header Upgrade $http_upgrade;
-   	    proxy_set_header Connection "upgrade";	
-   		}
+   ```shell
+   upstream dxpmanager {
+           server ip:port;
+       }
+   location /dxpmanager {
+           proxy_pass  http://dxpmanager;
+       }
+   location  /dxpmanager/websocket/pushlog {
+   	proxy_pass http://dxpmanager;
+       proxy_set_header Host $host:$server_port;
+       proxy_http_version 1.1;
+       proxy_set_header Upgrade $http_upgrade;
+       proxy_set_header Connection "upgrade";	
+   	}
+   ```
 
 
 
@@ -43,7 +45,7 @@
 
 1. 可能是锁表了，请运行以下`sql`解锁表
 
-```sql
+```postgresql
 select
  T.PID,
  T.STATE,
