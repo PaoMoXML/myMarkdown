@@ -5,3 +5,4 @@
 [ScoopInstaller · GitCode](https://gitcode.net/mirrors/ScoopInstaller)
 
 [glimmer/scoopInstaller - 码云 - 开源中国 (gitee.com)](https://gitee.com/glsnames/scoop-installer)
+
