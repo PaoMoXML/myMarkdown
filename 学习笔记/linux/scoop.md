@@ -6,3 +6,6 @@
 
 [glimmer/scoopInstaller - 码云 - 开源中国 (gitee.com)](https://gitee.com/glsnames/scoop-installer)
 
+[Scoop Packages (sedlar.me)](https://sedlar.me/scoop-frontend/)
+
+[搭建 Windows 统一开发环境（Scoop） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/128955118)
