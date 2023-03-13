@@ -77,7 +77,66 @@ ps -ef |grep nginx |grep -v grep	//查看是否启动
 
 ### 4.Nginx配置
 
-```
+####  添加ipv6支持
 
 ```
 
+ server {
+ 	...
+ 	listen       [::]:8000;
+ 	...
+ }
+
+ 
+ 
+```
+
+#### 允许访问目录
+
+```
+ 
+ #允许访问目录
+ server {
+ 	...
+ 	# 对需要展示为文件列表的网站磁盘目录，进行网站虚拟路径配置。虚拟路径为'/markdown'
+ 	location /markdown{ 
+ 				# 需要被设置为文件列表的网站磁盘目录路径。当设置网站虚拟路径时，要使用alias。因为root用于网站主目录，并且虚拟路径映射中，root只能有一个。而alias可以有多个。
+				alias /home/xml/markdown/; 
+				try_files $uri $uri/ /index.html;
+				index index.php index.html index.htm default.php default.htm default.html;
+				autoindex on;  # 开启目录文件列表
+					autoindex_exact_size on;  # 显示出文件的确切大小，单位是bytes
+					autoindex_localtime on;  # 显示的文件时间为文件的服务器时间
+					charset utf-8;  # 避免中文乱码
+		}
+     ...
+ }
+```
+
+#### http代理
+
+```
+ http {
+ 	...
+ 	upstream rabbitmq {
+		server 192.168.1.15:15672;
+    }
+    server {
+    	...
+    	location /rabbitmq/ {
+		proxy_pass  http://rabbitmq/;
+        	proxy_set_header Host $host;
+        	proxy_set_header X-Real-IP $remote_addr;
+        	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        	root   html;
+        	index  index.html index.htm;
+		}
+		...
+    }
+ 	...
+ }
+```
+
+### tcp/udp
+
+[Nginx 基于tcp/udp代理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/69164457)
