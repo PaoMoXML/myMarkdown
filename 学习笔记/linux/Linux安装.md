@@ -553,10 +553,10 @@ systemctl daemon-reload
 ```shell
 
 //下载nginx源码包
-wget http://nginx.org/download/nginx-1.18.0.tar.gz
+wget https://nginx.org/download/nginx-1.22.1.tar.gz
  
 //解压
-tar -zxvf nginx-1.18.0.tar.gz
+tar -zxvf nginx-1.22.1.tar.gz
  
 //更新
 apt-get update

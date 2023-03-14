@@ -77,6 +77,14 @@ setx "LESSCHARSET" "utf-8" /m
 
 
 
+### 修改提交日志
+
+[git 修改 commit log - 每天都要学进去一些 - 博客园 (cnblogs.com)](https://www.cnblogs.com/chenguangliang/p/13169738.html)
+
+
+
+
+
 ### .gitignore
 
 ```bash
