@@ -43,6 +43,13 @@ setx "LESSCHARSET" "utf-8" /m
 
 
 
+### 账号密码自动保存
+
+```shell
+git config --global credential.helper store  // 自动保存账号密码
+git config --system --unset credential.helper　　//重置验证设置
+```
+
 
 
 ### 分支管理
