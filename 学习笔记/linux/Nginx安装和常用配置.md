@@ -104,10 +104,16 @@ ps -ef |grep nginx |grep -v grep	//查看是否启动
 				alias /home/xml/markdown/; 
 				try_files $uri $uri/ /index.html;
 				index index.php index.html index.htm default.php default.htm default.html;
+				sendfile on;   # 开启高效文件传输模式
 				autoindex on;  # 开启目录文件列表
-					autoindex_exact_size on;  # 显示出文件的确切大小，单位是bytes
-					autoindex_localtime on;  # 显示的文件时间为文件的服务器时间
-					charset utf-8;  # 避免中文乱码
+				autoindex_exact_size on;  # 显示出文件的确切大小，单位是bytes
+				autoindex_localtime on;  # 显示的文件时间为文件的服务器时间
+				charset utf-8,gbk;  # 避免中文乱码
+				limit_rate 1024k;  # 限速，默认不限速
+				#开启文件预览
+				if ($request_filename ~* ^.*?\.(txt|doc|pdf|rar|gz|zip|docx|exe|xlsx|ppt|pptx)$){
+            add_header Content-Disposition: 'p_w_upload;';
+         }
 		}
      ...
  }
