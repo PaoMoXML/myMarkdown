@@ -88,7 +88,9 @@ git config --system --unset credential.helper　　//重置验证设置
 
 [git 修改 commit log - 每天都要学进去一些 - 博客园 (cnblogs.com)](https://www.cnblogs.com/chenguangliang/p/13169738.html)
 
+### 合并
 
+[git rebase，看这一篇就够了 - 掘金 (juejin.cn)](https://juejin.cn/post/6969101234338791432)
 
 
 
