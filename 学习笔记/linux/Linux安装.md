@@ -579,5 +579,12 @@ ps -ef | grep 应用名
 netstat -nap | grep pid
 #根据端口port查进程
 netstat -nap | grep port
+#寻找端口程序所在位置
+netstat -tunlp | grep port
+ps -ef | grep port
+
 ```
 
+// 寻找端口程序所在位置
+
+![image-20230327102739413](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230327102739413.png)
