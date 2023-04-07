@@ -41,3 +41,10 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 
    **我启动`spring-boot-smoke-test-aop`这个测试，经过`deduceFromClasspath`方法后返回的是`none`，程序运行完后直接结束了**
 
+4. `BootstrapRegistryInitializer`是一个函数式接口==功能待补充==，`getSpringFactoriesInstances()`这个方法是根据类加载器，加载`META-INF/spring.factories`路径下的资源，将其中的内容封装成一个map![image-20230405094544802](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230405094544802.png)这个map以`ClassLoader`对象作为key，`Map<String, List<String>>`则为这个类加载器下加载到的[`META-INF/spring.factories`][1]
+
+
+
+
+
+[1]: ./注释/META-INFspring.factories内容加载.md
