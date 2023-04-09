@@ -3,6 +3,8 @@
 #### `SpringApplication(org.springframework.core.io.ResourceLoader, java.lang.Class<?>...)`
 
 ```java
+//resourceLoader:
+//primarySources：
 public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
 		this.resourceLoader = resourceLoader;
 		Assert.notNull(primarySources, "PrimarySources must not be null");
@@ -16,10 +18,15 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 	}
 ```
 
-1. `resourceLoader`==未知待补充==
+#### LINE1 LINE2 LINE3
 
-2. `primarySources` `springboot`加载的主要来源--->一般就是传入我们新建`springboot`项目时的那个有main方法的类
+> `resourceLoader`==未知待补充==
+>
+> `Assert.notNull(primarySources, "PrimarySources must not be null");`主类不能为空
+>
+> `this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));`
 
+1. `primarySources` `springboot`加载的主要来源--->一般就是传入我们新建`springboot`项目时的那个有main方法的类
    1. 启动类不一定是传入自己，它其实需要传入的是带有`@SpringBootApplication`注解的类
    2. `@SpringBootApplication`进入源码后：在上面还有
       1. `@SpringBootConfiguration`==待补充==
@@ -29,22 +36,27 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
          2. `includeFilters`：符合条件的不是`bean`
          3. 。。。==待补充==
 
-3. `webApplicationType`是一个枚举类型，将返回三个状态：`NONE`、`SERVLET`、`REACTIVE`
+#### LINE4
 
-   `WebApplicationType.deduceFromClasspath()`方法名`deduce`为推断：从类路径推断web应用类型
+> `this.webApplicationType = WebApplicationType.deduceFromClasspath();`
 
-   其中有三个类路径
+1. `webApplicationType`是一个枚举类型，将返回三个状态：`NONE`、`SERVLET`、`REACTIVE`
+2. `WebApplicationType.deduceFromClasspath()`方法名`deduce`为推断：从类路径推断web应用类型
+   1. 其中有三个类路径
+   2. `WEBMVC_INDICATOR_CLASS = "org.springframework.web.servlet.DispatcherServlet"`==含义待补充==
+   3. `WEBFLUX_INDICATOR_CLASS = "org.springframework.web.reactive.DispatcherHandler"`==含义待补充==
+   4. `JERSEY_INDICATOR_CLASS = "org.glassfish.jersey.servlet.ServletContainer"`==含义待补充==
 
-   1. `WEBMVC_INDICATOR_CLASS = "org.springframework.web.servlet.DispatcherServlet"`==含义待补充==
-   2. `WEBFLUX_INDICATOR_CLASS = "org.springframework.web.reactive.DispatcherHandler"`==含义待补充==
-   3. `JERSEY_INDICATOR_CLASS = "org.glassfish.jersey.servlet.ServletContainer"`==含义待补充==
+**我启动`spring-boot-smoke-test-aop`这个测试，经过`deduceFromClasspath`方法后返回的是`none`，程序运行完后直接结束了**
 
-   **我启动`spring-boot-smoke-test-aop`这个测试，经过`deduceFromClasspath`方法后返回的是`none`，程序运行完后直接结束了**
+#### LINE5
 
-4. `BootstrapRegistryInitializer`是一个函数式接口==功能待补充==，`getSpringFactoriesInstances()`这个方法是根据类加载器，加载`META-INF/spring.factories`路径下的资源，将其中的内容封装成一个map![image-20230405094544802](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230405094544802.png)这个map以`ClassLoader`对象作为key，`Map<String, List<String>>`则为这个类加载器下加载到的[`META-INF/spring.factories`][1]
+> `this.bootstrapRegistryInitializers = new ArrayList<>(
+> 				getSpringFactoriesInstances(BootstrapRegistryInitializer.class));`
 
-
-
+1. `BootstrapRegistryInitializer`是一个函数式接口==功能待补充==，[`getSpringFactoriesInstances()`](./注释/getSpringFactoriesInstances.md)
 
 
-[1]: ./注释/META-INFspring.factories内容加载.md
+
+
+
