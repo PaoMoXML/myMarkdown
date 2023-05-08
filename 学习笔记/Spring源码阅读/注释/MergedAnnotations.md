@@ -1,6 +1,8 @@
 > 平常使用注解一般是直接在`类`、`方法`、`属性`上通过反射获取。如果使用的注解没有在定义时加上`@Inherited`，则无法通过反射父类直接获取到 ==该注解只作用于类==。但是`Spring`的注解如`@Controller`可以发现在注解的定义中还添加了`@Component`，真正实现功能的是其中的`@Component`。
 >
 > 在阅读源码时，将在[`getSpringFactoriesInstances`](./1.getSpringFactoriesInstances.md)中首先遇到
+>
+> **参考资料：[深入理解Spring注解机制（一）：注解的搜索与处理机制 - Createsequence - 博客园 (cnblogs.com)](https://www.cnblogs.com/Createsequence/p/16585516.html)**
 
 ### 合并注解
 
@@ -29,7 +31,7 @@ static MergedAnnotations from(AnnotatedElement element, SearchStrategy searchStr
 
 - 注解搜索策略：`SearchStrategy`
   
-  > 是一个枚举，定义了注解搜索的策略
+  > 是一个枚举，为`{@link MergedAnnotations#from(AnnotatedElement, SearchStrategy)}`提供支持的搜索策略每种策略都会创建一组不同的聚合，这些聚合将被组合起来创建最终的`{@link MergedAnnotations}`
   
   - `DIRECT`：只查找元素上直接声明的注解，不包括通过`@Inherited`继承的注解；
   - `INHERITED_ANNOTATIONS`：只查找元素直接声明或通过`@Inherited`继承的注解；
@@ -37,7 +39,11 @@ static MergedAnnotations from(AnnotatedElement element, SearchStrategy searchStr
   - `TYPE_HIERARCHY`：查找元素、所有父类以及实现的父接口的全部注解；
   - `TYPE_HIERARCHY_AND_ENCLOSING_CLASSES`：查找查找元素、所有父类以及实现的父接口、封闭类以及其子类的全部注解。
   
-- 可重入容器：`RepeatableContainers` ==待研究==
+- 可重入容器：`RepeatableContainers` 
+  
+  > 用于确定充当其他注释容器的注释的策略。`standardRepeatables()`方法提供了一个默认策略，该策略尊重Java的`@Repeatable`支持，应该适用于大多数情况。的方法可用于为不希望使用@Repeatable的批注注册关系。要完全禁用可重复支持，请使用`none()`。
+  
+  
   
 - 注解过滤器：`AnnotationFilter`
 
@@ -104,7 +110,7 @@ static boolean isKnownEmpty(AnnotatedElement source, SearchStrategy searchStrate
 
 ###### LINE7
 
-> `MergedAnnotations`是`MergedAnnotations`的实现类
+> `TypeMappedAnnotations`是`MergedAnnotations`的实现类
 
 ```java
 private TypeMappedAnnotations(AnnotatedElement element, SearchStrategy searchStrategy,
