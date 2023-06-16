@@ -47,3 +47,15 @@
 开发环境：IDEA、svn、java8、maven
 
 使用技术：springboot、mysql、pgsql、kettle
+
+
+
+
+
+自我介绍：
+
+我叫徐梦麟，今年25岁，20年从盐城工学院毕业，计算机系，目前有3年半的Java开发经验，有springboot、mysql、pgsql、redis、rabbitmq等技术经验、有在linux上看日志然后排查线上问题的经验。
+
+三年中主要负责了5个项目，其中两个是住建部项目，在项目里我主要负责功能模块的设计和开发以及难点的解决、期间担任过开发组长
+
+在最近的项目里有用到基于springboot我司自研的框架以及redis和rabbitmq。在项目里我除了编码外还参与功能的设计和代码评审工作
