@@ -588,3 +588,14 @@ ps -ef | grep port
 // 寻找端口程序所在位置
 
 ![image-20230327102739413](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230327102739413.png)
+
+
+
+
+
+> [双系统如何远程切换设置_远程切换双系统_AIchiNiurou的博客-CSDN博客](https://blog.csdn.net/weixin_44523062/article/details/112523693)
+>
+> ```shell
+> sudo grub-reboot 2
+> sudo reboot
+> ```

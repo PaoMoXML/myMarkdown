@@ -59,3 +59,33 @@ graph TD
 >
 > 【腾讯文档】房屋市政必填字段
 > https://docs.qq.com/sheet/DR1Z5R0xPUmxoU09N?tab=f2eajn
+
+
+
+
+
+```
+'../../../datapush/css/images/checked.svg'
+"../../../datapush/css/images/check.svg"
+```
+
+
+
+
+
+```
+docker run -d --name kingbasev8r6 -p 54321:54321 \
+-e SYSTEM_USER=kingbasees \
+-e SYSTEM_PWD=kingbasees \
+-e ENCODING=UTF8 \
+-e DATABASE_MODE=pg  \
+-e BLOCK_SIZE=8  \
+-v /opt/kingbase/license.dat:/opt/kingbase/Server/bin/license.dat \
+chyiyaqing/kingbase:v8r6
+
+
+cp -r bin/* /opt/kingbase/Server/bin/
+cp -r lib/* /opt/kingbase/Server/lib/
+cp -r share/extension/* /opt/kingbase/Server/share/extension/
+```
+
