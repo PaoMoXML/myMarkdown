@@ -80,3 +80,20 @@ class DefaultApplicationContextFactory implements ApplicationContextFactory {
 }
 ```
 
+### AnnotationConfigApplicationContext
+
+```java
+/**
+ * 独立的应用程序上下文，接受组件类作为输入——特别是@Configuration注释的类，但也接受使用javax.inject注释的普通@component类型和JSR-330兼容的类。
+ * 允许使用register（Class…）逐个注册类，也允许使用scan（String…）扫描类路径。
+ * 在多个@Configuration类的情况下，在后面的类中定义的@Bean方法将覆盖在前面的类中所定义的方法。这可以通过一个额外的@Configuration类来有意覆盖某些bean定义。
+ * 有关用法示例，请参阅@Configuration的javadoc。
+ * 请参阅:
+ * register，scan，AnnotatedBeanDefinitionReader，ClassPathBeanDefinitionScanner，org.springframework.context.support.GenericXmlApplicationContext
+ */
+public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
+    //...
+}
+```
+
+[深入理解Spring容器初始化（一）：上下文的初始化 - Createsequence - 博客园 (cnblogs.com)](https://www.cnblogs.com/Createsequence/p/16585528.html)
