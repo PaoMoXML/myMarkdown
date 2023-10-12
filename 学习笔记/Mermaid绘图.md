@@ -13,6 +13,59 @@ id3--无箭头---id5((圆形))
 end
 ```
 
+```mermaid
+%% graph TD; comment
+graph LR
+
+Zero
+
+A(This is A)
+
+B[This is B]
+
+C([This is C])
+
+D[[This is D]]
+
+E[(Database E)]
+
+F((This is F))
+
+G>This is G]
+
+H{This is H}
+
+I{{This is I}}
+
+J[/J/]
+
+K[\K\]
+
+L[/L\]
+
+M[\ M/]
+
+Zero --> A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M
+```
+
+```mermaid
+graph TD
+
+A-->B
+C---D
+E--RUN!---F
+G---|RUN!|H
+I -.- J
+K .-> L
+M -."RUN(!".->N
+O ==RUN!==>P
+Q --RUN!-->R--STOP!-->S
+
+a --> b & c--> d
+e & f--> g & h
+
+```
+
 #### - 方向
 
 | 用词 | 含义     |

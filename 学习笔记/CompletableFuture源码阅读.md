@@ -8,6 +8,7 @@ CompletableFuture.runAsync(() -> System.err.println("step1")).thenRun(() -> Syst
 
 ```java
 public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+    
     //执行线程池
     private static final Executor asyncPool = useCommonPool ?
         ForkJoinPool.commonPool() : new ThreadPerTaskExecutor();
@@ -39,15 +40,18 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 #### 1.2 `AsyncRun`
 
 ```java
-
-    
+public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+    //此类为CompletableFuture中的内部静态类
     @SuppressWarnings("serial")
-    static final class AsyncRun extends ForkJoinTask<Void>
-            implements Runnable, AsynchronousCompletionTask {
-        CompletableFuture<Void> dep;Runnable fn;
+    static final class AsyncRun extends ForkJoinTask<Void> implements Runnable, AsynchronousCompletionTask {
+        CompletableFuture<Void> dep;
+        Runnable fn;
         //构造
+        // dep -> 新创建的以Void为返回值的CompletableFuture
+        // fun -> 传入的Runnable
         AsyncRun(CompletableFuture<Void> dep, Runnable fn) {
-            this.dep = dep; this.fn = fn;
+            this.dep = dep; 
+            this.fn = fn;
         }
 
         public final Void getRawResult() { return null; }
@@ -82,16 +86,42 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
         return UNSAFE.compareAndSwapObject(this, RESULT, null,
                                            NIL);
     }
+}
 ```
 
 1. 运行业务逻辑-->`f.run()`
 2. 给`RESULT`赋值
 3. `d.postComplete();`
 
->tips:
+>在这段代码中出现了:
 >
 >```java
->  public native boolean compareAndSwapObject(Object obj, long offset, Object expect, Object update);
+>CompletableFuture<Void> d;
+>d.result == null
+>```
+>
+>对于`d.result`的解释如下：
+>
+>```java
+>public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+>	volatile Object result;       // Either the result or boxed AltResult 结果或装箱的AltResult
+>    
+>    static final class AltResult { // See above
+>        final Throwable ex;        // null only for NIL
+>        AltResult(Throwable x) { this.ex = x; }
+>    }
+>
+>    /** The encoding of the null value. */
+>    static final AltResult NIL = new AltResult(null);
+>}
+>```
+>
+>所以`result`的值将会是最终结果或者`AltResult`
+>
+>在当前类(`AsyncRun`)中`run()`方法中将会通过` d.completeNull()`方法将`NIL`值赋值给`d.result`-->`d.result -> NIL`
+>
+>```java
+>public native boolean compareAndSwapObject(Object obj, long offset, Object expect, Object update);
 >```
 >
 >- obj ：包含要修改的字段对象；
@@ -102,31 +132,72 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 #### 1.3 `postComplete`
 
 ```java
-final void postComplete() {
-        /*
-         * On each step, variable f holds current dependents to pop
-         * and run.  It is extended along only one path at a time,
-         * pushing others to avoid unbounded recursion.
-         */
-        CompletableFuture<?> f = this; Completion h;
-        while ((h = f.stack) != null ||
-               (f != this && (h = (f = this).stack) != null)) {
-            CompletableFuture<?> d; Completion t;
-            if (f.casStack(h, t = h.next)) {
-                if (t != null) {
-                    if (f != this) {
-                        pushStack(h);
-                        continue;
+public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+    // 递归直到当前任务以及dep的栈都为空为止
+    final void postComplete() {
+            /*
+             * On each step, variable f holds current dependents to pop
+             * and run.  It is extended along only one path at a time,
+             * pushing others to avoid unbounded recursion.
+             */
+            CompletableFuture<?> f = this; Completion h;
+            while (
+                //操作-> 将f.stack赋值给h || 当 f!=this 时将f再次赋值为this，将h赋值为this.stack
+                //判断-> h != null || (f != this && h != null)
+                (h = f.stack) != null ||
+                   (f != this && (h = (f = this).stack) != null)) {
+                CompletableFuture<?> d; 
+                Completion t;
+                //如果f中的STACK字段值为h，则将h替换为h.next
+                if (f.casStack(h, t = h.next)) {
+                    if (t != null) {
+                        if (f != this) {
+                            pushStack(h);
+                            continue;
+                        }
+                        h.next = null;    // detach
                     }
-                    h.next = null;    // detach
+                    f = (d = h.tryFire(NESTED)) == null ? this : d;
                 }
-                f = (d = h.tryFire(NESTED)) == null ? this : d;
             }
         }
     }
-    
+
+	final boolean casStack(Completion cmp, Completion val) {
+        //如果STACK = cmp 则将 STACK = val
+        return UNSAFE.compareAndSwapObject(this, STACK, cmp, val);
+    }
+
+    /** Returns true if successfully pushed c onto stack. */
+	// c.next -> this.stack
+	// this.stack -> c
+    final boolean tryPushStack(Completion c) {
+        Completion h = stack;
+        lazySetNext(c, h);
+        return UNSAFE.compareAndSwapObject(this, STACK, h, c);
+    }
+
+	static void lazySetNext(Completion c, Completion next) {
+        UNSAFE.putOrderedObject(c, NEXT, next);
+    }
+
+    /** Unconditionally pushes c onto stack, retrying if necessary. */
+    final void pushStack(Completion c) {
+        do {} while (!tryPushStack(c));
+    }
+
 }
 ```
+
+> ```java
+> public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+>     volatile Completion stack;    // Top of Treiber stack of dependent actions 依赖操作的驱动程序堆栈顶部
+> }
+> ```
+>
+> 当第一次执行`postComplete()`时，`this.stack = null`
+
+
 
 [CompletableFuture运行流程源码详解 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/165030484)
 

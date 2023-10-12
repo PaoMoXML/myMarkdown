@@ -1,15 +1,35 @@
-一个tomcat中只装一个应用，端口对应增加
+### `FpDataGL`
 
+#### SVN和服务器
 
+[`svn`地址](svn://192.168.0.51/2021/BJJFFW2B/住建部信息资源整合平台二期深化（含全国房屋市政数据管理应用平台）/Trunk/code/房普数据管理)
 
-哪些应用配置在nginx中![image-20220701162554466](C:\Users\xml00\AppData\Roaming\Typora\typora-user-images\image-20220701162554466.png)
+[服务器地址](http://219.142.101.192/zjbfpdata) 账号：admin 密码：11111
 
-![image-20220701163229207](C:\Users\xml00\AppData\Roaming\Typora\typora-user-images\image-20220701163229207.png)
+#### 赋码
 
-![image-20220701163651556](C:\Users\xml00\AppData\Roaming\Typora\typora-user-images\image-20220701163651556.png)
+> [批量赋码页面服务器地址](http://219.142.101.192/zjbfpdata/bldgcodeinfo/batchcode_list)
+>
+> 代码位置：`com.epoint.szjs.createhousecode.action.BatchCodeListAction#executeCode`
 
-去掉不用设置的
+#### 性能优化
 
-![image-20220701163838225](C:\Users\xml00\AppData\Roaming\Typora\typora-user-images\image-20220701163838225.png)
+[基础数据库管理系统-BUG管控 (qq.com)](https://docs.qq.com/sheet/DVHhCV3FXTndhTXly?tab=qajis0)
 
-redis安装的时候告诉下密码
+截图2中是可能导致性能问题的代码位置
+
+![image-20230914085755664](C:\Users\xml00\AppData\Roaming\Typora\typora-user-images\image-20230914085755664.png)
+
+## `FpCodeGL`
+
+#### 表结构和接口文档
+
+[赋码相关 (qq.com)](https://docs.qq.com/doc/DYmFLQ0ZwRGxvckhO)
+
+#### SVN
+
+[`svn`地址](svn://192.168.0.51/2021/BJJFFW2B/住建部信息资源整合平台二期深化（含全国房屋市政数据管理应用平台）/Trunk/code/房普赋码平台)
+
+#### 赋码接口
+
+代码位置：`com.epoint.szjs.createhousecode.rest.CreateCodeRest`
