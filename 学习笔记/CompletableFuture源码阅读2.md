@@ -15,7 +15,7 @@ task1.complete("1");
 //1 2 3
 ```
 
-#### 1.1`thenApply`
+#### 1.1方法`thenApply`
 
 ```java
 public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
@@ -65,7 +65,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 }
 ```
 
-##### 1.1.1方法`uniApply`
+#### 1.2方法`uniApply`
 
 ```java
 public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
@@ -113,7 +113,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 }
 ```
 
-##### 1.1.2静态内部类`UniApply`
+#### 1.3静态内部类`UniApply`、`UniCompletion`、`Completion`
 
 ```java
 public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
@@ -172,7 +172,10 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
             return false;
         }
 
-        final boolean isLive() { return dep != null; }
+        final boolean isLive() {
+            //判断是否有依赖的CompletableFuture
+            return dep != null; 
+        }
     }
     
     abstract static class Completion extends ForkJoinTask<Void>
@@ -199,7 +202,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 }
 ```
 
-
+#### 1.4方法`postComplete`和`postFire`
 
 ```java
 public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
@@ -263,4 +266,63 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
     }
 }
 ```
+
+
+
+
+
+### 总结
+
+```java
+        CompletableFuture<String> task1 = new CompletableFuture<>();
+        CompletableFuture<String> task2 = task1.thenApply(s -> s + "2");
+        CompletableFuture<Void> task3 = task2.thenAccept(s -> System.err.println(s));
+		task1.complete("1");
+```
+
+执行到`task1.complete("1")`时task1的结构：
+
+![image-20231020152948459](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20231020152948459.png)
+
+> 创建过程：
+>
+> 1. 创建`task1 `
+>    `task1.stack = null`
+>    `task1.result = null`
+> 2. 在task1的基础上创建后续任务task2
+>    1. 创建一个新的`CompletableFuture-->task2`尝试**直接执行task2**，但由于task1仍未开始执行所以**无法执行task2**
+>    2. 构造一个`Completion` （这里将他称为*`c2`*）
+>       1. 执行器`executor`（`Executor`）
+>       2. 关联任务`dep`（`CompletableFuture-->task2`）
+>       3. 原始任务`src`（`CompletableFuture-->task1`）
+>       4. 关联任务待执行函数`fn`（`fn`）
+>    3. 将*`c2`*压入`task1`的栈（`stack`）` task.stack = c2 --next--> c1` ==*task2*的栈仍然为null==
+>       1. 将*`c2.next`*替换为`c1`
+>       2. 将`task1.stack`替换为*`c2`*
+>    4. 总结就是：
+>       1. `task1.stack =c2`
+>          `task1.result = null`
+>          `c2.executor = 入参executor`
+>          `c2.dep = task2`
+>          `c2.src = task1`
+>          `c2.fn = 入参fn`
+>          `c2.next = task1.stack = null`
+>       2. `task2.stack = null`
+>          `task2.result = null`
+> 3. 在task2的基础上创建后续任务task3，同上（将task2看做task1，将task3看做task2）。
+>    1. `task2.stack = c3 `
+>       `task2.result = null`
+>       `c3.executor = 入参executor`
+>       `c3.dep = task3`
+>       `c3.src = task2`
+>       `c3.fn = 入参fn`
+>       `c3.next = task2.stack = null`
+>    2. `task3.stack = null`
+>       `task3.result = null`
+>
+> 执行过程：
+>
+> 1. task1执行 --> `task1.result=1` -->`postComplete执行task1.stack.dep(task2)`-->回到`postComplete`
+> 2. task2执行 --> `task2.result=12` -->
+> 3. task3执行 --> 输出`12`
 
