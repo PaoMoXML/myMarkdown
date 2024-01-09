@@ -266,7 +266,7 @@
 
 8. 修改`/opt/tomcat/bin/tomcat`文件
 
-   ```
+   ```shell
    #注册成服务时的服务名
    APP_NAME="tomcat"
    APP_LONG_NAME="Tomcat Application Server"
@@ -279,7 +279,7 @@
 
 9. 修改`/opt/tomcat/bin/wrapper.config`文件
 
-   ```
+   ```shell
    #********************************************************************
    # Wrapper Java Properties
    #********************************************************************
@@ -599,3 +599,96 @@ ps -ef | grep port
 > sudo grub-reboot 2
 > sudo reboot
 > ```
+
+### 10. 解压
+
+```shell
+# 压缩文件 file1 和目录 dir2 到 test.tar.gz
+tar -zcvf test.tar.gz file1 dir2
+# 解压 test.tar.gz（将 c 换成 x 即可）
+tar -zxvf test.tar.gz
+# 列出压缩文件的内容
+tar -ztvf test.tar.gz 
+```
+
+> -z : 使用 gzip 来压缩和解压文件
+>
+> -v : --verbose 详细的列出处理的文件
+>
+> -f : --file=ARCHIVE 使用档案文件或设备，这个选项通常是必选的
+>
+> -c : --create 创建一个新的归档（压缩包）
+>
+> -x : 从压缩包中解出文件
+
+### 11. 查看磁盘大小和系统信息
+
+1. 磁盘大小
+
+   ```shell
+   [root@localhost logs]# df -h
+   Filesystem               Size  Used Avail Use% Mounted on
+   devtmpfs                  16G     0   16G   0% /dev
+   tmpfs                     16G     0   16G   0% /dev/shm
+   tmpfs                     16G  8.9M   16G   1% /run
+   tmpfs                     16G     0   16G   0% /sys/fs/cgroup
+   /dev/mapper/centos-root   99G  6.1G   93G   7% /
+   /dev/sda1               1014M  150M  865M  15% /boot
+   tmpfs                    3.2G     0  3.2G   0% /run/user/0
+   ```
+
+   | 内容参数     | 含义                    |
+   | ------------ | ----------------------- |
+   | `Filesystem` | 文件系统                |
+   | `Size`       | 分区大小                |
+   | `1k-blocks`  | 单位是1KB(使用`df`查看) |
+   | `Used`       | 已用容量                |
+   | `Avail`      | 还可用的容量            |
+   | `Use%`       | 已用百分比              |
+   | `Mounted on` | 挂载点                  |
+
+2. 系统信息
+
+   ```shell
+   uname -r ： 显示操作系统的发行版号
+   uname -a ：显示系统名、节点名称、操作系统的发行版号、内核版本等等。
+   
+   [root@localhost logs]# uname -r
+   3.10.0-1127.el7.x86_64
+   [root@localhost logs]# uname -a
+   Linux localhost.localdomain 3.10.0-1127.el7.x86_64 #1 SMP Tue Mar 31 23:36:51 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+   
+   
+   [root@localhost logs]# lscpu
+   Architecture:          x86_64  #架构
+   CPU op-mode(s):        32-bit, 64-bit
+   Byte Order:            Little Endian
+   CPU(s):                16  #逻辑cpu颗数
+   On-line CPU(s) list:   0-15
+   Thread(s) per core:    1  #每个核心线程
+   Core(s) per socket:    1  #每个cpu插槽核数/每颗物理cpu核数
+   Socket(s):             16  #cpu插槽数
+   NUMA node(s):          2
+   Vendor ID:             GenuineIntel  #cpu厂商ID
+   CPU family:            6  #cpu系列
+   Model:                 62  #型号
+   Model name:            Intel(R) Xeon(R) CPU E5-2660 v2 @ 2.20GHz
+   Stepping:              4  #步进
+   CPU MHz:               2200.000  #cpu主频
+   BogoMIPS:              4400.00
+   Hypervisor vendor:     VMware
+   Virtualization type:   full
+   L1d cache:             32K  #一级缓存（google了下，这具体表示表示cpu的L1数据缓存）
+   L1i cache:             32K  #一级缓存（具体为L1指令缓存）
+   L2 cache:              256K  #二级缓存
+   L3 cache:              25600K
+   NUMA node0 CPU(s):     0-7
+   NUMA node1 CPU(s):     8-15
+   Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_tsc eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm ssbd ibrs ibpb stibp fsgsbase tsc_adjust smep arat md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities
+   ```
+
+   
+
+### 12. 防火墙
+
+[Linux下开启、关闭端口的方法_linux开放端口-CSDN博客](https://blog.csdn.net/babyQ_tester/article/details/107874530)

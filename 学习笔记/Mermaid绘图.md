@@ -1,3 +1,5 @@
+[关于 Mermaid | Mermaid 中文网 (nodejs.cn)](https://mermaid.nodejs.cn/intro/)
+
 ## 1. 基础类
 
 ### 1.1 流程图
@@ -11,6 +13,7 @@ id2==粗线==>id3{菱形}
 id3-. 虚线.->id4>右向旗帜]
 id3--无箭头---id5((圆形))
 end
+
 ```
 
 ```mermaid
