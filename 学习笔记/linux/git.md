@@ -154,3 +154,26 @@ fd1/*
 ```
 
 > .gitignore 前 push 了也可以忽略，使用 git rm -r --cached . 然后 git add . 再 commit, push
+
+### 代理
+
+```shell
+//设置代理
+//http || https
+git config --global http.proxy 127.0.0.1:7890
+git config --global https.proxy 127.0.0.1:7890
+
+//sock5代理
+git config --global http.proxy socks5 127.0.0.1:7891
+git config --global https.proxy socks5 127.0.0.1:7891
+
+//查看代理
+git config --global --get http.proxy
+git config --global --get https.proxy
+s
+//取消代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+
+```
+
