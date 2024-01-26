@@ -216,7 +216,7 @@
    PermitRootLogin yes
    ```
 
-5. 重启服务
+4. 重启服务
 
    ```
    #方法一：
@@ -582,7 +582,6 @@ netstat -nap | grep port
 #寻找端口程序所在位置
 netstat -tunlp | grep port
 ps -ef | grep port
-
 ```
 
 // 寻找端口程序所在位置
@@ -692,3 +691,25 @@ tar -ztvf test.tar.gz
 ### 12. 防火墙
 
 [Linux下开启、关闭端口的方法_linux开放端口-CSDN博客](https://blog.csdn.net/babyQ_tester/article/details/107874530)
+
+### 13.后台运行
+
+```shell
+#nohup命令
+$ nohup ./frpc -c frpc.ini > frpc.out 2>&1 &
+$ nohup {} > {} 2>&1 &
+```
+
+> `frpc -c frpc.ini` ：你需要后台运行的程序
+> `>`：日志文件追加到文件中
+> `frpc.out`： 运行的日志，或你的文件的输出内容
+> `&` ：是一个描述符，如果1或2前不加&，会被当成一个普通文件
+> `1>&2` ：意思是把标准输出重定向到标准错误
+> `2>&1 `：意思是把标准错误输出重定向到标准输出
+> `&>filename`： 意思是把标准输出和标准错误输出都重定向到文件filename
+
+### 14.网络统计
+
+nethogs
+
+[如何监控 Linux 上进程的网络使用情况 - Linux迷 (linuxmi.com)](https://www.linuxmi.com/linux-monitor-network.html#:~:text=如何监控 Linux 上进程的网络使用情况 1 1、nethogs nethogs 是一个为互联网连接提供类似于 htop,3、netstat netstat 是一个强大的程序，可以让您查看系统上的网络连接。 但它不会显示网络连接附加到哪些进程。 与 lsof 类似，您可以使用命令行选项来查看这些信息。 )
