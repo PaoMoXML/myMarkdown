@@ -697,7 +697,9 @@ tar -ztvf test.tar.gz
 ```shell
 #nohup命令
 $ nohup ./frpc -c frpc.ini > frpc.out 2>&1 &
+$ nohup ./PalServer.sh > PalServer.out 2>&1 &
 $ nohup {} > {} 2>&1 &
+
 ```
 
 > `frpc -c frpc.ini` ：你需要后台运行的程序
@@ -713,3 +715,6 @@ $ nohup {} > {} 2>&1 &
 nethogs
 
 [如何监控 Linux 上进程的网络使用情况 - Linux迷 (linuxmi.com)](https://www.linuxmi.com/linux-monitor-network.html#:~:text=如何监控 Linux 上进程的网络使用情况 1 1、nethogs nethogs 是一个为互联网连接提供类似于 htop,3、netstat netstat 是一个强大的程序，可以让您查看系统上的网络连接。 但它不会显示网络连接附加到哪些进程。 与 lsof 类似，您可以使用命令行选项来查看这些信息。 )
+
+
+
