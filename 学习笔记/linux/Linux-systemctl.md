@@ -70,10 +70,16 @@ RestartPreventExitStatus=SIGKILL
 
 [Install]
 WantedBy=multi-user.target
-
 ```
 
-
+> [!TIP]
+>
+> 编写完后需要执行执行如下命令
+>
+> ```shell
+> # 重载服务
+> systemctl daemon-reload
+> ```
 
 [systemd实践: 依据情况自动重启服务 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/56889721)
 
