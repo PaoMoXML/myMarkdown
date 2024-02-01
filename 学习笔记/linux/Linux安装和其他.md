@@ -716,5 +716,22 @@ nethogs
 
 [如何监控 Linux 上进程的网络使用情况 - Linux迷 (linuxmi.com)](https://www.linuxmi.com/linux-monitor-network.html#:~:text=如何监控 Linux 上进程的网络使用情况 1 1、nethogs nethogs 是一个为互联网连接提供类似于 htop,3、netstat netstat 是一个强大的程序，可以让您查看系统上的网络连接。 但它不会显示网络连接附加到哪些进程。 与 lsof 类似，您可以使用命令行选项来查看这些信息。 )
 
+### 15. 修改系统时间
+
+```shell
+# 查看系统时间
+$ date
+# 将系统设置成 2024年1月30日
+$ date -s "2024-01-30"
+# 将系统设置成 上午10点19分02秒
+$ date -s "10:19:02"
+# 同时修改日期时间,注意要加双引号,日期与时间之间有一空格,输入:date -s "2024-01-30 10:19:02"
+$ date -s "2024-01-30 10:19:02"
+# 修改完后,需要的话可以输入:clock -w 把系统时间写入CMOS
+$ clock -w
+# 将当前时间和日期写入BIOS，避免重启后失效
+$ hwclock -w
+```
+
 
 
