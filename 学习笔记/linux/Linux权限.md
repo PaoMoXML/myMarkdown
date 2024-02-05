@@ -57,7 +57,9 @@ $ ls -ld pom.xml
 
 
 ```shell
-$ chown 用户 文件名/目录名
+# -R：递归执行
+$ chown [–R] 所有者 文件名
+$ chown [-R] 所有者:属组名 文件名
 
 # 举例
 $ ls -l
@@ -78,6 +80,8 @@ drwxr-xr-x 2 xumenglin root 4096  2月  1 16:53 .
 # 此时使用vim编辑成功
 ```
 
+---
+
 #### `chmod`
 
 >  [!NOTE]
@@ -91,7 +95,9 @@ drwxr-xr-x 2 xumenglin root 4096  2月  1 16:53 .
 > 4. r、w、x代表三种权限
 
 ```bash
-$ chmod +模式 +文件
+#xyz：数字权限
+#-R：递归执行
+$ chmod [-R] xyz 文件或目录
 
 # 举例
 $ chmod u+rw test #给所属用户权限位添加读写权限
@@ -104,6 +110,9 @@ $ chmod u+rwx test
 $ ls -l
 -rwxr--r-- 1 xumenglin xumenglin 0  2月  1 16:53 test
 ```
+
+| chmod | u<br />g<br />o<br />a | +(加入)<br />-(除去)<br />=(设定) | r<br />w<br />x | 文件或目录 |
+| ----- | ---------------------- | --------------------------------- | --------------- | ---------- |
 
 **`chmod`**也支持只用数字方式进行权限修改
 
@@ -152,7 +161,7 @@ $ umask 022
 
 [Linux—umask（创建文件时的掩码）用法详解-CSDN博客](https://blog.csdn.net/Change_Improve/article/details/106107317)
 
-
+---
 
 ### 常用命令
 
@@ -178,3 +187,8 @@ steam : steam sudo
 $ whoami
 ```
 
+------
+
+### `ls -l`命令补充
+
+![img](https://www.runoob.com/wp-content/uploads/2014/06/file-llls22.jpg)

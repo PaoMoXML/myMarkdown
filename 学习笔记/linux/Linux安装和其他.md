@@ -570,7 +570,7 @@ systemctl daemon-reload
    
    ```
 
-### 9.常用命令
+### 9.寻找进程常用命令
 
 ```shell
 # 查看进程所用pid
