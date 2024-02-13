@@ -733,5 +733,12 @@ $ clock -w
 $ hwclock -w
 ```
 
+### 16.解决 由于没有公钥，无法验证下列签名
 
+[解决 由于没有公钥，无法验证下列签名 :NO_PUBKEY](https://www.cnblogs.com/2205254761qq/p/11863928.html)
+
+```bash
+$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 76F1A20FF987672F
+$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 缺失的公钥
+```
 
