@@ -25,6 +25,7 @@ public class SpringApplication {
 	 * @see #setApplicationContextFactory(ApplicationContextFactory)
 	 */
 	protected ConfigurableApplicationContext createApplicationContext() {
+        // WebApplicationType.NONE WebApplicationType.SERVLET WebApplicationType.REACTIVE
 		return this.applicationContextFactory.create(this.webApplicationType);
 	}
     

@@ -42,6 +42,8 @@
 
    修改完后建议重启 然后使用ping命令查看检查是否网络已通
 
+   或者执行 `sudo /etc/init.d/networking reload`
+   
    
 
 ### 3.更换国内软件源
