@@ -192,3 +192,59 @@ $ whoami
 ### `ls -l`命令补充
 
 ![img](https://www.runoob.com/wp-content/uploads/2014/06/file-llls22.jpg)
+
+### 修改用户的用户组
+
+#### `gpasswd`
+
+```shell
+gpasswd [可选项] 组名
+```
+
+- -a：添加用户到组；
+- -d：从组删除用户；
+- -A：指定管理员；
+- -M：指定组成员和-A的用途差不多；
+- -r：删除密码；
+- -R：限制用户登入组，只有组中的成员才可以用newgrp加入该组。
+
+```shell
+# 将用户dev添加到root用户组
+$ gpasswd -a dev root
+# 将用户dev从root组中删除
+$ gpasswd -d dev root
+```
+
+#### `usermod`
+
+```shell
+usermod [-LU][-c <备注>][-d <登入目录>][-e <有效期限>][-f <缓冲天数>][-g <群组>][-G <群组>][-l <帐号名称>][-s <shell>][-u <uid>][用户帐号]
+```
+
+- -c<备注> 　修改用户帐号的备注文字。
+- -d登入目录> 　修改用户登入时的目录。
+- -e<有效期限> 　修改帐号的有效期限。
+- -f<缓冲天数> 　修改在密码过期后多少天即关闭该帐号。
+- -g<群组> 　修改用户所属的群组。
+- -G<群组> 　修改用户所属的附加群组。
+- -l<帐号名称> 　修改用户帐号名称。
+- -L 　锁定用户密码，使密码无效。
+- -s<shell> 　修改用户登入后所使用的shell。
+- -u<uid> 　修改用户ID。
+- -U 　解除密码锁定。
+
+```shell
+# 将用户添加到组
+$ sudo usermod -a -G GROUP USER
+# sudo usermod -a -G xumenglin ftpuser
+# 更改用户主要组
+$ sudo usermod -g GROUP USER
+# usermod -g developers xumenglin
+# 更改用户主目录
+$ usermod -d HOME_DIR USER
+# 更改用户默认 Shell
+$ usermod -s SHELL USER
+
+```
+
+[Linux 中的 usermod 命令_usermod -a -g-CSDN博客](https://blog.csdn.net/allway2/article/details/122111636)
