@@ -195,6 +195,10 @@ $ whoami
 
 ### 修改用户的用户组
 
+> [!WARNING] 
+>
+> 修改groups后 groups和groups username显示结果可能不同，需要重启或者ssh重新连接
+
 #### `gpasswd`
 
 ```shell
