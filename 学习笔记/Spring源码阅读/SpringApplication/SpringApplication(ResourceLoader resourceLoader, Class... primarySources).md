@@ -16,7 +16,7 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();
-	}
+}
 ```
 
 #### LINE1 LINE2 LINE3
@@ -82,7 +82,7 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 > `this.bootstrapRegistryInitializers = new ArrayList<>(
 > 				getSpringFactoriesInstances(BootstrapRegistryInitializer.class));`
 
-1. `BootstrapRegistryInitializer`是一个函数式接口==功能待补充==，[`getSpringFactoriesInstances()`](./注释/1.getSpringFactoriesInstances.md)
+1. `BootstrapRegistryInitializer`是一个函数式接口==功能待补充==，[`getSpringFactoriesInstances()`](./getSpringFactoriesInstances.md)
 
 
 
