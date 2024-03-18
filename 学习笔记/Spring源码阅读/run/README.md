@@ -1,12 +1,10 @@
 ## INDEX
 
----
-
 #### [o.s.b.SpringApplication#run(java.lang.String...)](run(String... args).md)
 
 ##### 1. 启动上下文
 
-- [x] [ConfigurableBootstrapContext](./1.BootstrapContext.md) -> 100%
+- [ ] [ConfigurableBootstrapContext](./1.BootstrapContext.md) -> 40% 如何使用未掌握
 
 ##### 2. 环境准备
 
