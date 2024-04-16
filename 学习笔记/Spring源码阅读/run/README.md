@@ -26,6 +26,7 @@
   - [x] [o.s.c.s.AbstractApplicationContext#prepareRefresh](./refresh/1.prepareRefresh.md) -> *100%*
     - [ ] prepareRefresh中initPropertySources方法的占位符相关 -> *0%*
   - [ ] obtainFreshBeanFactory
+    - [ ] 
   - [ ] prepareBeanFactory
   - [ ] postProcessBeanFactory
   - [ ] invokeBeanFactoryPostProcessors
