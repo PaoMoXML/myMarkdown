@@ -648,6 +648,23 @@ tar -ztvf test.tar.gz
    | `Use%`       | 已用百分比              |
    | `Mounted on` | 挂载点                  |
 
+    du 命令：查看当前目录和子目录文件夹/文件大小情况
+
+   - -c, --total 累计大小
+   - -d, --max-depth=N 决定统计每个目录的深度
+   - -B, --block-size=SIZE 决定显示文件大小的单位;比如 ‘-BM’，就是MB，'-BK’就是KB
+   - -h, --human-readable 以高可读方式打印 (比如1K 234M 2G)
+   - -s, --summarize 显示总大小
+
+   ```shell
+   // 查看当前目录总大小
+   du -sh
+   // 查看当前目录所有子目录大小
+   du -sh *
+   // 查看当前目录和所有子目录大小，最后一行会显示当前目录的总大小，不包括隐藏文件
+   du -ach *
+   ```
+
 2. 系统信息
 
    ```shell
