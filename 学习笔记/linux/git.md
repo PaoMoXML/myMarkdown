@@ -60,6 +60,24 @@ git config --system --unset credential.helper　　//重置验证设置
 - **git merge**：合并分支命令
 - **git branch -d (branchname)**：删除分支命令
 
+```shell
+git branch //查看本地所有分支 
+git branch -r //查看远程所有分支
+git branch -a //查看本地和远程的所有分支
+git branch <branchname> //新建分支
+git branch -d <branchname> //删除本地分支
+git branch -d -r <branchname> //删除远程分支，删除后还需推送到服务器
+git push origin:<branchname>  //删除后推送至服务器
+git branch -m <oldbranch> <newbranch> //重命名本地分支
+```
+
+### fetch
+
+```shell
+$ git fetch <远程主机名> //这个命令将某个远程主机的更新全部取回本地
+$ git fetch <远程主机名> <分支名> //注意之间有空格
+```
+
 
 
 ### 提交历史查看 git log
@@ -95,6 +113,49 @@ git config --system --unset credential.helper　　//重置验证设置
 ### 合并
 
 [git rebase，看这一篇就够了 - 掘金 (juejin.cn)](https://juejin.cn/post/6969101234338791432)
+
+### 暂存工作区
+
+```shell
+// 暂存工作区，将修改未提交的内容暂存
+$ git stash
+Saved working directory and index state WIP on theBaseXmlDev: b93a88b98 【bug修改】textPlay功能bug修改
+
+// 从暂存工作区中取出存储的内容，并将其从暂存中删除
+$ git stash pop
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   epoint-etrading-web/src/main/resources/jdbc.properties
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (5908ae7ff9dd93be9a11f079f71013c9195dbfae)
+
+
+// 标记暂存的内容
+$ git stash save 'jdbc修改'
+Saved working directory and index state On theBaseXmlDev: jdbc修改
+
+// 查看暂存内容list
+$ git stash list
+stash@{0}: On theBaseXmlDev: jdbc修改
+
+// 恢复到某一个暂存内容，注意：使用后并不会将暂存删除
+$ git stash apply 0
+On branch theBaseXmlDev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   epoint-etrading-web/src/main/resources/jdbc.properties
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+//手动删除暂存内容
+$ git stash drop 0
+Dropped refs/stash@{0} (d59d04c2a40979e1c46fade789e322faf80ea5cb)
+```
+
+
 
 
 
