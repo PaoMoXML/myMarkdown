@@ -761,3 +761,28 @@ $ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 76F1A20FF987
 $ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 缺失的公钥
 ```
 
+### 17. apt-get 查询版本
+
+```shell
+// 通过apt-get安装指定版本的软件
+$ sudo apt-get install package=version
+
+// 查询指定软件有多少个版本
+// 通过网站搜索
+https://packages.ubuntu.com/
+
+// 使用 apt-cache madison 列出软件的所有来源
+$ sudo apt-cache madison package
+// 使用 apt-cache policy 列出软件的所有来源
+$ sudo apt-cache policy vim
+// 使用 apt-cache showpkg 列出软件的所有来源
+$ sudo apt-cache showpkg vim 
+
+// 使用 apt-show-versions 列出软件所有版本，并查看是否已经安装
+$ sudo apt-get install apt-show-versions
+$ apt-show-versions -a vim
+
+// 查询指定包的详情
+$ sudo apt-cache show package
+```
+
