@@ -81,15 +81,11 @@ ps -ef |grep nginx |grep -v grep	#查看是否启动
 ####  添加ipv6支持
 
 ```shell
-
- server {
+server {
  	...
  	listen       [::]:8000;
  	...
- }
-
- 
- 
+}
 ```
 
 #### 允许访问目录
@@ -101,18 +97,18 @@ ps -ef |grep nginx |grep -v grep	#查看是否启动
  	...
  	# 对需要展示为文件列表的网站磁盘目录，进行网站虚拟路径配置。虚拟路径为'/markdown'
  	location /markdown{ 
- 				# 需要被设置为文件列表的网站磁盘目录路径。当设置网站虚拟路径时，要使用alias。因为root用于网站主目录，并且虚拟路径映射中，root只能有一个。而alias可以有多个。
-				alias /home/xml/markdown/; 
-				try_files $uri $uri/ /index.html;
-				index index.php index.html index.htm default.php default.htm default.html;
-				sendfile on;   # 开启高效文件传输模式
-				autoindex on;  # 开启目录文件列表
-				autoindex_exact_size on;  # 显示出文件的确切大小，单位是bytes
-				autoindex_localtime on;  # 显示的文件时间为文件的服务器时间
-				charset utf-8,gbk;  # 避免中文乱码
-				limit_rate 1024k;  # 限速，默认不限速
-				#开启文件预览
-				if ($request_filename ~* ^.*?\.(txt|doc|pdf|rar|gz|zip|docx|exe|xlsx|ppt|pptx)$){
+            # 需要被设置为文件列表的网站磁盘目录路径。当设置网站虚拟路径时，要使用alias。因为root用于网站主目录，并且虚拟路径映射中，root只能有一个。而alias可以有多个。
+            alias /home/xml/markdown/; 
+            try_files $uri $uri/ /index.html;
+            index index.php index.html index.htm default.php default.htm default.html;
+            sendfile on;   # 开启高效文件传输模式
+            autoindex on;  # 开启目录文件列表
+            autoindex_exact_size on;  # 显示出文件的确切大小，单位是bytes
+            autoindex_localtime on;  # 显示的文件时间为文件的服务器时间
+            charset utf-8,gbk;  # 避免中文乱码
+            limit_rate 1024k;  # 限速，默认不限速
+            #开启文件预览
+            if ($request_filename ~* ^.*?\.(txt|doc|pdf|rar|gz|zip|docx|exe|xlsx|ppt|pptx)$){
             add_header Content-Disposition: 'p_w_upload;';
          }
 		}
@@ -204,4 +200,96 @@ ps -ef |grep nginx |grep -v grep	#查看是否启动
    tcpdump -n -v -i enp2s0 port 2222
    ```
 
-   
+
+### 6.Nginx Service
+
+```shell
+// /usr/lib/systemd/system
+[Unit]
+Description=Nginx Service
+Documentation="http://nginx.org/en/docs/"
+After=network.target remote-fs.target nss-lookup.target
+[Service]
+Type=forking
+PIDFile=/usr/local/nginx/logs/nginx.pid
+ExecStartPre=/usr/local/nginx/sbin/nginx -t
+ExecStart=/usr/local/nginx/sbin/nginx
+ExecReload=/usr/local/nginx/sbin/nginx -s reload
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+LimitNOFILE=200000
+[Install]
+WantedBy=multi-user.target
+```
+
+### 7.通过acme申请ssl
+
+> [说明 · acmesh-official/acme.sh Wiki (github.com)](https://github.com/acmesh-official/acme.sh/wiki/说明)
+
+1. 安装
+
+   ```shell
+   curl https://get.acme.sh | sh -s email=my@example.com
+   ```
+
+   默认目录
+
+   ```shell
+   ~/.acme.sh/
+   ```
+
+   可以执行以下如下命令，给acme设置别名方便使用
+
+   ```shell
+   alias acme.sh=~/.acme.sh/acme.sh
+   ```
+
+2. 使用dns方式手动生成证书：
+
+   1. 
+
+      ```shell
+      acme.sh --issue --dns -d mydomain.com \
+       --yes-I-know-dns-manual-mode-enough-go-ahead-please
+      ```
+
+   2. ```shell
+      acme.sh --renew -d mydomain.com \
+        --yes-I-know-dns-manual-mode-enough-go-ahead-please
+      ```
+
+      可能会提示没有设置Key和Secret，需要去`~/.acme.sh/account.conf`中配置，以阿里云为例子
+
+      ```shell
+      Ali_Key="<key>"
+      Ali_Secret="<secret>"
+      ```
+
+3. 在Nginx上安装ssl
+
+   ```shell
+   acme.sh --install-cert -d example.com \
+   --key-file       /path/to/keyfile/in/nginx/key.pem  \
+   --fullchain-file /path/to/fullchain/nginx/cert.pem \
+   # 如果没有这个命令可以自己添加，参考 6.Nginx Service
+   --reloadcmd     "service nginx force-reload"
+   ```
+
+   nginx.conf配置
+
+   ```shell
+   server {
+    	...
+    	listen		 8000;
+    	listen       [::]:8000;
+    	# 开启ssl
+    	ssl on;
+    	#ssl证书的pem文件路径
+       ssl_certificate  /path/to/fullchain/nginx/cert.pem;
+       #ssl证书的key文件路径
+       ssl_certificate_key /path/to/keyfile/in/nginx/key.pem;
+    	...
+   }
+   ```
+
+   配置完后重启Nginx
