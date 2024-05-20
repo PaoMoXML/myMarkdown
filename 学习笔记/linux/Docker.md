@@ -137,6 +137,10 @@ docker exec -it '容器名' /bin/bash
 docker stop '容器名' 
 #删除容器
 docker rm '容器名'
+#查看日志
+docker logs '容器名'
+#跟踪最新100条日志
+docker logs -f --tail 100 '容器名'
 ```
 
 root@debian:~# docker ps -a

@@ -54,9 +54,3 @@ sftp> put -r xxx
 #执行本地 Shell 命令
 ![command]
 ```
-
-
-
-
-
-docker run --name xmls-wordpress -e WORDPRESS_DB_HOST=localhost:3306    -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=xml001hi -p 8080:80 -d wordpress

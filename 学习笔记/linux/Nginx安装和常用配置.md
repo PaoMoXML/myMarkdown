@@ -258,7 +258,7 @@ WantedBy=multi-user.target
         --yes-I-know-dns-manual-mode-enough-go-ahead-please
       ```
 
-      可能会提示没有设置Key和Secret，需要去`~/.acme.sh/account.conf`中配置，以阿里云为例子
+      可能会提示没有设置Key和Secret，需要去`~/.acme.sh/account.conf`中配置，以阿里云为例子，在此处申请`https://ram.console.aliyun.com/users`
 
       ```shell
       Ali_Key="<key>"
