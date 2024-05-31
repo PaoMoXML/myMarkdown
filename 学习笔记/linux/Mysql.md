@@ -21,7 +21,7 @@ apt-get install wget gnupg lsb-release
    dpkg -i mysql-apt-config_0.8.24-1_all.deb
    ```
 
-   ![img](https://img-blog.csdnimg.cn/60a4ede73f744eb793f637620a92e38f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAbGdnaXJscw==,size_20,color_FFFFFF,t_70,g_se,x_16)
+   ![img](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/60a4ede73f744eb793f637620a92e38f.png)
 
 3. 使用apt 命令进行安装. 如果提示出现依赖包的错误，注意分别安装。中途需设定root密码
 
@@ -37,7 +37,7 @@ apt-get install wget gnupg lsb-release
    mysql --version
    ```
 
-   ![image-20230308121114554](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230308121114554.png)
+   ![image-20230308121114554](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/image-20230308121114554.png)
 
 5. 安装完可以直接使用，但是新版本在安装过程中没有提示设置root用户密码，使用如下方法设置
 

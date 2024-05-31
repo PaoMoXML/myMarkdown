@@ -10,7 +10,7 @@ sftp user_name@remote_server_address[:path]
 
 连接成功后会显示`sftp>`
 
-![image-20230313094603018](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230313094603018.png)
+![image-20230313094603018](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/image-20230313094603018.png)
 
 #### 连接参数详解
 

@@ -134,7 +134,7 @@ private static Map<String, List<String>> loadSpringFactories(ClassLoader classLo
 `Enumeration<URL> urls = classLoader.getResources(FACTORIES_RESOURCE_LOCATION)`==待研究==
 `UrlResource resource = new UrlResource(url)`==待研究==
 返回结果如下
-![image-20230405103141185](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20230405103141185.png)
+![image-20230405103141185](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/image-20230405103141185.png)
 
 > tips:`unmodifiableList`是只读列表
 

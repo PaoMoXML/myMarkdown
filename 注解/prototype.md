@@ -45,7 +45,7 @@ public class CalService
 
 ### 开始时运行没有任何问题，但是运行一段时间后就会报错：
 
-![image-20220531173057020](C:\Users\xml00\AppData\Roaming\Typora\typora-user-images\image-20220531173057020.png)
+![image-20220531173057020](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/image-20220531173057020.png)
 
 我解决了半天没有解决掉，然后我就想到了 为什么公司要用`new`
 

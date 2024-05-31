@@ -1,6 +1,6 @@
 ### JVM结构
 
-![JVM结构](https://pic1.zhimg.com/80/v2-2cdedcdf752a00bafc1ee9d9901580c0_720w.webp)
+![JVM结构](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/v2-2cdedcdf752a00bafc1ee9d9901580c0_720w.webp)
 
 > [Java JVM 运行机制及基本原理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/25713880)
 >
@@ -32,7 +32,7 @@ JVM的多线程是通过线程轮流切换并分配处理器执行时间的方�
 >
 > 此内存区域的唯一目的就是存放**对象实例**，几乎所有的对象实例以及数组都在这里分配内存
 
-![堆内存结构](https://oss.javaguide.cn/github/javaguide/java/jvm/hotspot-heap-structure.png)
+![堆内存结构](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/hotspot-heap-structure.png)
 
 大部分情况，对象都会首先在 Eden 区域分配，在一次新生代垃圾回收后，如果对象还存活，则会进入 S0 或者 S1，并且对象的年龄还会加 1(Eden 区->Survivor 区后对象的初始年龄变为 1)，当它的年龄增加到一定程度（默认为 15 岁），就会被晋升到老年代中。对象晋升到老年代的年龄阈值，可以通过参数 `-XX:MaxTenuringThreshold` 来设置。
 

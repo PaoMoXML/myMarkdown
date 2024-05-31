@@ -291,7 +291,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 
 执行到`task1.complete("1")`时task1的结构：
 
-![image-20231020152948459](https://xmls-typora-pic.oss-cn-shanghai.aliyuncs.com/pic/image-20231020152948459.png)
+![image-20231020152948459](https://cdn.jsdelivr.net/gh/PaoMoXML/image@main/img/image-20231020152948459.png)
 
 > 创建过程：
 >
