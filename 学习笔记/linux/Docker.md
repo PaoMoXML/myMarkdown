@@ -188,3 +188,30 @@ CONTAINER ID   IMAGE                     COMMAND        CREATED       STATUS    
    ```
 
 ### 使用tomcat运行war
+
+
+
+
+
+### docker使用代理拉取镜像
+
+```shell
+sudo vim /etc/systemd/system/multi-user.target.wants/docker.service
+
+
+[Service]
+# 添加如下内容，需要配合clash
+Environment="HTTP_PROXY=http://127.0.0.1:7890/"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890/"
+
+# 重启
+systemctl daemon-reload
+systemctl restart docker
+```
+
+### 查看镜像占用内存等
+
+```shell
+sudo docker stats --no-stream
+```
+

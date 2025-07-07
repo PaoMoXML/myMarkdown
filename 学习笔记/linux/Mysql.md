@@ -223,3 +223,97 @@ apt-get install wget gnupg lsb-release
    ```
 
 6. 发生错误时，产生的信息文档的位置 /var/log/mysql/error.log 
+
+### 4.自动备份
+
+```bash
+#!/bin/bash
+
+# -------------- 配置部分 ---------------- #
+
+# MySQL数据库凭证（本地服务器）
+MYSQL_USER="root"               # 数据库用户名
+MYSQL_PASS="your_mysql_password" # 数据库密码
+MYSQL_DB="your_database_name"    # 数据库名（或者使用--all-databases来备份所有数据库）
+
+# 本地临时备份目录
+LOCAL_BACKUP_DIR="/tmp/mysql-backup"  # 本地备份存储目录
+LOG_FILE="/var/log/mysql-remote-backup.log"  # 日志文件
+
+# 远程备份服务器的连接信息
+REMOTE_USER="backupuser"          # 远程服务器的用户名
+REMOTE_HOST="your.remote-server.com"  # 远程服务器的主机名或IP
+REMOTE_PORT="22"                  # 远程服务器的SSH端口
+REMOTE_DIR="/backups/mysql"       # 远程备份存储目录
+
+# 备份文件保留天数
+LOCAL_RETENTION_DAYS=3           # 删除本地备份文件（超过3天）
+REMOTE_RETENTION_DAYS=7          # 删除远程备份文件（超过7天）
+
+# -------------- 脚本开始 ----------------- #
+
+# 获取当前时间作为备份文件名的一部分
+DATE=$(date +%F-%H%M%S)
+BACKUP_NAME="${MYSQL_DB}-backup-${DATE}.sql"      # 备份文件名（不压缩）
+ARCHIVE_NAME="${BACKUP_NAME}.tar.gz"              # 压缩后的备份文件名
+
+# 创建本地备份目录（如果不存在的话）
+mkdir -p $LOCAL_BACKUP_DIR
+
+# 记录备份开始时间
+echo "[$(date)] 开始备份 MySQL 数据库..." | tee -a $LOG_FILE
+
+# 执行 MySQL 数据库备份
+mysqldump -u$MYSQL_USER -p$MYSQL_PASS $MYSQL_DB > $LOCAL_BACKUP_DIR/$BACKUP_NAME
+
+# 如果备份失败，则记录错误并退出
+if [ $? -ne 0 ]; then
+    echo "[$(date)] MySQL 数据库备份失败!" | tee -a $LOG_FILE
+    exit 1
+fi
+
+# 压缩备份文件
+tar -czf $LOCAL_BACKUP_DIR/$ARCHIVE_NAME -C $LOCAL_BACKUP_DIR $BACKUP_NAME
+# 删除未压缩的备份文件
+rm -f $LOCAL_BACKUP_DIR/$BACKUP_NAME
+
+# 使用 SCP 将备份文件上传到远程服务器
+# 重试机制：如果第一次上传失败，尝试重试最多3次
+RETRY_COUNT=0
+MAX_RETRIES=3
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+    scp -P $REMOTE_PORT $LOCAL_BACKUP_DIR/$ARCHIVE_NAME ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/
+    if [ $? -eq 0 ]; then
+        echo "[$(date)] 备份文件成功上传到远程服务器。" | tee -a $LOG_FILE
+        break
+    else
+        echo "[$(date)] 第$((RETRY_COUNT+1))次尝试上传失败，正在重试..." | tee -a $LOG_FILE
+        RETRY_COUNT=$((RETRY_COUNT+1))
+        if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+            echo "[$(date)] 上传失败次数达到最大重试次数，备份上传失败。" | tee -a $LOG_FILE
+            exit 1
+        fi
+    fi
+done
+
+# 删除本地过期的备份文件
+echo "[$(date)] 正在删除超过 $LOCAL_RETENTION_DAYS 天的本地备份文件..." | tee -a $LOG_FILE
+find $LOCAL_BACKUP_DIR -type f -mtime +$LOCAL_RETENTION_DAYS -delete
+
+# 删除远程过期的备份文件
+echo "[$(date)] 正在删除远程服务器上超过 $REMOTE_RETENTION_DAYS 天的备份文件..." | tee -a $LOG_FILE
+ssh -p $REMOTE_PORT ${REMOTE_USER}@${REMOTE_HOST} "find ${REMOTE_DIR} -type f -mtime +${REMOTE_RETENTION_DAYS} -delete"
+
+# 记录备份完成时间
+echo "[$(date)] MySQL 数据库备份完成。" | tee -a $LOG_FILE
+
+exit 0
+
+```
+
+`crontab -e`添加定时任务，凌晨三点备份
+
+```bash
+0 3 * * * /path/to/your/backup_script.sh
+```
+

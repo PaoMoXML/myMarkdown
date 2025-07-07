@@ -37,11 +37,10 @@
    # dns服务器
    dns-nameservers 114.114.114.114
    dns-search epoint
-   
    ```
-
+   
    修改完后建议重启 然后使用ping命令查看检查是否网络已通
-
+   
    或者执行 `sudo /etc/init.d/networking reload`
    
    
@@ -761,7 +760,7 @@ $ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 76F1A20FF987
 $ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 缺失的公钥
 ```
 
-### 17. apt-get 查询版本
+### 17.apt-get 查询版本
 
 ```shell
 // 通过apt-get安装指定版本的软件
@@ -784,5 +783,13 @@ $ apt-show-versions -a vim
 
 // 查询指定包的详情
 $ sudo apt-cache show package
+```
+
+### 18.SSH KEY
+
+```bash
+ssh-keygen // 生成key
+ssh-copy-id user@remote_host //上传公钥 将公钥添加到远程服务器的 ~/.ssh/authorized_keys 文件中
+chmod 600 ~/.ssh/authorized_keys // 设置权限 确保 authorized_keys 文件权限正确
 ```
 

@@ -95,6 +95,7 @@ $ git fetch <远程主机名> <分支名> //注意之间有空格
 
 - **git remote add [alias] [url]**：添加远程仓库
 - **git remote**：查看当前的远程仓库
+- git remote -v：查看远程仓库地址
 - **git fetch**、**git pull**：提取远程仓仓库
 - **git push [alias] [branch]**：推送到远程仓库
 - **git remote rm**：删除远程仓库
@@ -113,6 +114,39 @@ $ git fetch <远程主机名> <分支名> //注意之间有空格
 ### 合并
 
 [git rebase，看这一篇就够了 - 掘金 (juejin.cn)](https://juejin.cn/post/6969101234338791432)
+
+### 将某文件的所有历史记录删除
+
+1. 要删除的文件
+
+   ```shell
+   src/main/resources/application.yml
+   ```
+
+2. 进入到工程顶级目录
+
+   输入命令（先修改`src/main/resources/application.yml`）
+
+   ```shell
+   git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch src/main/resources/application.yml' --prune-empty --tag-name-filter cat -- --all
+   ```
+
+3. 本地记录覆盖到Github,(所有branch以及所有tags)
+
+   ```shell
+   git push origin --force --all
+   git push origin --force --tags
+   ```
+
+4. 确保没有什么问题之后,强制解除对本地存储库中的所有对象的引用和垃圾收集
+
+   ```shell
+   git for-each-ref --format='delete %(refname)' refs/original | git update-ref --stdin
+   git reflog expire --expire=now --all
+   git gc --prune=now
+   ```
+
+   
 
 ### 暂存工作区
 
@@ -231,7 +265,7 @@ git config --global https.proxy socks5 127.0.0.1:7891
 //查看代理
 git config --global --get http.proxy
 git config --global --get https.proxy
-s
+
 //取消代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy

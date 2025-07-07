@@ -258,6 +258,11 @@ WantedBy=multi-user.target
         --yes-I-know-dns-manual-mode-enough-go-ahead-please
       ```
 
+   3. ```shell
+      // 阿里云 dns自动认证 ==推荐使用这个==
+      acme.sh --issue --dns dns_ali -d mydomain.com -d *.mydomain.com
+      ```
+
       可能会提示没有设置Key和Secret，需要去`~/.acme.sh/account.conf`中配置，以阿里云为例子，在此处申请`https://ram.console.aliyun.com/users`
 
       ```shell
